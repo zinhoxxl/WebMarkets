@@ -69,6 +69,11 @@ function checkForm(){
 		return false;	
 	}
 	
+	if(!isConfirm){
+		alert("본인 인증을 해주세요!");
+		form.cert.focus();
+		return false;
+	}
 	return true;
 }
 </script>
@@ -88,20 +93,30 @@ function idChk(){
 </script>
 <script>
 function sendEmail(){
-	var arr = [parseInt((Math.random()*92))+33,
-			parseInt((Math.random()*92))+33,
-			parseInt((Math.random()*92))+33,
-			parseInt((Math.random()*92))+33,
-			parseInt((Math.random()*92))+33,
-			parseInt((Math.random()*92))+33
-	]
-	
-	for(var i=0;i<arr.length;i++){
-		alert(String.fromCharCode(arr[i]));
+	var mailId = document.newMember.mail1.value+'@'+document.newMember.mail2.value;
+	var emailPassword =prompt("이메일 비번을 입력하세요",'');
+if(emailPassword.length>0){	
+		window.open("certMail.jsp?email="+mailId+"&emailPassword="+emailPassword);
+	  }
+}
+</script>
+<script>
+/* 글로벌 변수 */
+var isConfirm=false;
+
+function confirm(){
+	var cert1 = document.getElementById("cert").value;
+	var cert2= document.getElementById("cert_confirm").value;
+	if(cert1!=cert2){
+		alert("cert1:"+cert1);
+		alert("cert2:"+cert2);
+		alert("인증확인요망");
+	}else{
+		alert("인증이 완료되었습니다.");
+		isConfirm=true;
 	}
 }
 </script>
-
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>회원 가입</title>
@@ -116,7 +131,7 @@ function sendEmail(){
   
   <div class="container">
     <form name="newMember" class="form-horizontal" action="processAddMember.jsp" 
-                method="post" onsubmit="return checkForm()">
+                method="post" onsubmit="return checkForm()"> 
         <div class="form-group row">
               <label class="col-sm-2">아이디</label>
               <div class="col-sm-3">
@@ -200,6 +215,9 @@ function sendEmail(){
               <label class="col-sm-2">이메일 인증</label>
               <div class="col-sm-3">
                    <input type="button" value="이메일 인증"  class="btn btn-success" onclick="sendEmail()">
+                   <input class="form-control" name="cert" type="password" id="cert" value="">
+                   <input class="form-control" name="cert_confirm" id="cert_confirm" type="password"value="">
+                   <input type="button" value="확인" class="btn btn-success" onclick="confirm()">
               </div>
         </div>
         
