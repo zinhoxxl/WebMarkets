@@ -1,67 +1,139 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html><html><head>
- <script>
-   function selectDomain(obj) {
-	   document.newMember.mail2.value=obj.value;  
-	   if(obj.value=="") document.newMember.mail2.focus();
-   }
- </script>   
- <script>
-   function checkForm(){
-	   if(document.newMember.password.value!=document.newMember.password_confirm.value){
-		   alert
-	   }
-   }
- </script>    
+<script>
+function selectDomain(obj){
+	document.newMember.mail2.value=obj.value;
+	if(obj.value=="") document.newMember.mail2.focus();
+}
+</script> 
+<script>
+function checkForm(){
+ if(document.newMember.password.value!=document.newMember.password_confirm.value){
+	 alert("비밀번호와 비밀번호확인 값이 서로 다릅니다!");
+	 document.newMember.password.value="";
+	 document.newMember.password_confirm.value="";
+	 document.newMember.password.focus();
+	 return false;
+ }	
+ 
+//validation 체크
+	var regExpId = /^[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+	var regExpName = /^[가-힣]*$/;
+	var regExpPassword =/^[0-9]*$/;
+	var regExpPhone = /^\d{3}-\d{3,4}-\d{4}$/;
+	var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; //akim
+	//form명
+	var form = document.newMember;
+	
+	var id = form.id.value;
+	var name = form.name.value;
+	var passwd = form.password.value;
+	var phone = form.phone1.value +"-" + form.phone2.value +"-" + form.phone3.value;
+	var email = form.mail1.value +"@"+form.mail2.value;
+	
+	if(!regExpId.test(id)){
+		alert("아이디는 문자로 시작해주세요");
+		form.id.focus();
+		form.id.value="";
+		return false;
+	}
+	
+	if(!regExpName.test(name)){
+		alert("이름은 한글만 입력해주세요!");
+		form.name.focus();
+		form.name.value='';
+		return false;
+	}
+	
+	if(!regExpPassword.test(passwd)){
+		alert("비밀번호는 숫자만 입력해주세요");
+		form.password.focus();
+		form.password.value='';
+		form.password_confirm.value='';
+		return false;
+	}
+	
+	if(!regExpPhone.test(phone)){
+		alert("연락처 입력을 확인 해주세요");
+		form.phone2.focus();
+		form.phone2.value='';
+		form.phone3.value='';
+		return false;	
+	}
+	if(!regExpEmail.test(email)){
+		alert("이메일 입력을 확인 해주세요");
+	    form.email1.focus();
+		form.email1.value='';
+		form.email2.value='';
+		return false;	
+	}
+	
+	return true;
+}    
+</script>
+<script>
+/* id check function() */
+function idChk(){
+ var id=document.member.id.value;
+ if(id.length==0){
+	 alert("아이디를 입력하세요");
+	 document.member.id.focus();
+	 return;
+ }else{
+  /* 팝업창 열기 window.open(페이지); <-현재페이지는 opener임. */
+  window.open('idCheck.jsp?id='+id);
+ }
+}
+</script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<title>회원 가입</title> 
+<title>회원 가입</title>
 </head>
 <body>
- <jsp:include page="/menu.jsp" />
- <div class="jumbotron">
-   <div class="container">
-      <h1 class="display-3">회원가입</h1>
-   </div>
- </div>
- 
- <div class="container">
+ <jsp:include page="/menu.jsp"/>
+  <div class="jumbotron">
+      <div class="container">
+      	<h1 class="display-3">회원가입</h1>
+      </div>
+  </div>
+  
+  <div class="container">
     <form name="newMember" class="form-horizontal" action="processAddMember.jsp" 
-          method="post" onsubmit="return checkForm()">  
-                   
-       <div class="form-group row">
-          <label class="col-sm-2">아이디</label>
-          <div class="col-sm-3">
-             <input name="id" type="text" class="form-control" placeholder="id">
-           </div>
-       </div>
-       
-       <div class="form-group row">
-          <label class="col-sm-2">비밀번호</label>
-          <div class="col-sm-3">
-             <input name="password" type="password" class="form-control" placeholder="password">
-           </div>
-       </div>
-       
-       <div class="form-group row">
-          <label class="col-sm-2">비밀번호 확인</label>
-          <div class="col-sm-3">
-             <input name="password_confirm" type="password" class="form-control" placeholder="password">
-           </div>
-       </div>
-       
-       <div class="form-group row">
-          <label class="col-sm-2">성명</label>
-          <div class="col-sm-3">
-             <input name="name" type="text" class="form-control" placeholder="name">
-           </div>
-       </div>
-       
-       <div class="form-group row">
+                method="post" onsubmit="return checkForm()">
+        <div class="form-group row">
+              <label class="col-sm-2">아이디</label>
+              <div class="col-sm-3">
+                   <input name="id" type="text" class="form-control" placeholder="id" required>
+                    <input type="button" value="아이디 중복검사"  class="btn btn-success" onclick="idChk()">
+              </div>
+        </div>
+        
+        <div class="form-group row">
+              <label class="col-sm-2">비밀번호</label>
+              <div class="col-sm-3">
+                   <input name="password" type="password" class="form-control" placeholder="password" required>
+              </div>
+        </div>
+        
+        <div class="form-group row">
+              <label class="col-sm-2">비밀번호확인</label>
+              <div class="col-sm-3">
+                   <input name="password_confirm" type="password" class="form-control" placeholder="password" required>
+              </div>
+        </div>
+        
+        <div class="form-group row">
+              <label class="col-sm-2">성명</label>
+              <div class="col-sm-3">
+                   <input name="name" type="text" class="form-control" placeholder="name" required>
+              </div>
+        </div>
+        
+        <div class="form-group row">
               <label class="col-sm-2">성별</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="남">
+                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="남" checked="checked">
                 <label class="form-check-label" for="inlineRadio1">남자</label>
               </div>
               <div class="form-check form-check-inline">
@@ -69,50 +141,50 @@
               <label class="form-check-label" for="inlineRadio2">여자</label>
               </div>
         </div>
-        
+
         <div class="form-group row">
-           <label class="col-sm-2">생일</label>
-           <div class="col-sm-4">
-               <input type="text" name="birthyy" maxlength="4" placeholder="년(4자)" size="6">
-               <select name="birthmm">
-                 <option value="">월</option>
-                 <option value="1">1</option>
-                 <option value="2">2</option>
-                 <option value="3">3</option>
-                 <option value="4">4</option>
-                 <option value="5">5</option>
-                 <option value="6">6</option>
-                 <option value="7">7</option>
-                 <option value="8">8</option>
-                 <option value="9">9</option>
-                 <option value="10">10</option>
-                 <option value="11">11</option>
-                 <option value="12">12</option>
-               </select>
-               <input type="text" name="birthdd" maxlength="2" placeholder="일" size="4">
-           </div>   
+              <label class="col-sm-2">생일</label>
+              <div class="col-sm-4">
+                   <input type="text" name="birthyy" maxlength="4" placeholder="년(4자)" size="6" required>
+                   <select name="birthmm" required>
+                   	<option value="">월</option>
+                   	<option value="01">1</option>
+                   	<option value="02">2</option>
+                   	<option value="03">3</option>
+                   	<option value="04">4</option>
+                   	<option value="05">5</option>
+                   	<option value="06">6</option>
+                   	<option value="07">7</option>
+                   	<option value="08">8</option>
+                   	<option value="09">9</option>
+                   	<option value="10">10</option>
+                   	<option value="11">11</option>
+                   	<option value="12">12</option>
+                   </select>
+                   <input type="text" name="birthdd" maxlength="2" placeholder="일" size="4" required>
+              </div>
         </div>
         
-        <div class="form-group row">
-           <label class="col-sm-2">이메일</label>
-           <div class="col-sm-10">
-              <input type="text" name="mail1" maxlength="50">@
-              <input type="text" name="mail2" maxlength="50">
-              <select name="mail2_select" onchange="selectDomain(this)">
-                 <option disabled="disabled" selected="selected">선택</option>
-                 <option>naver.com</option>
-                 <option>daum.net</option>
-                 <option>gmail.com</option>
-                 <option>nate.com</option>
-                 <option value="">직접입력</option>
-              </select>
-           </div>
-        </div>
-        
-        <div class="form-group row">
-           <label class="col-sm-2">전화번호</label>
-           <div class="col-sm-3">
-              <select name="phone1" required>
+       <div class="form-group row">
+             <label class="col-sm-2">이메일</label>
+             <div class="col-sm-10">
+                <input type="text" name="mail1" maxlength="50" required>@
+                <input type="text" name="mail2" maxlength="50" required>
+                 <select name="mail2_select" onchange="selectDomain(this)">
+                    <option disabled="disabled" selected="selected">선택</option>
+                    <option>namver.com</option>
+                    <option>daum.net</option>
+                    <option>gmail.com</option>
+                    <option>nate.com</option>
+                    <option value="">직접입력</option>
+                </select>
+             </div>
+       </div>
+       
+       <div class="form-group row">
+         <label class="col-sm-2">전화번호</label>
+         <div class="col-sm-5">
+               <select name="phone1" required>
 		              <option value="010" selected>010</option>
 		              <option value="011">011</option>
 		              <option value="016">016</option>
@@ -121,53 +193,51 @@
 		           </select>
 				- <input maxlength="4" size="4" name="phone2" required> -
 				<input maxlength="4" size="4" name="phone3" required>
-           </div>
-        </div>
-        
-         <div class="form-group row">
+         </div>
+       </div>
+  
+  <div class="form-group row">
              <label class="col-sm-2">우편번호</label>
              <div class="col-sm-3">
-                 <input name="zipcode" id="zipcode" type="text" class="form-control" placeholder="우편번호">
+                 <input name="zipcode" id="zipcode" type="text" class="form-control" placeholder="우편번호" required>
                  <input type="button" onclick="Postcode()" value="우편번호 찾기"><br>
              </div>
          </div>
           <div class="form-group row">
              <label class="col-sm-2">도로명주소</label>
              <div class="col-sm-3">
-                 <input name="roadAddress" id="roadAddress"  type="text" class="form-control" placeholder="도로명주소">
+                 <input name="roadAddress" id="roadAddress"  type="text" class="form-control" placeholder="도로명주소" required>
              </div>
          </div>
          <div class="form-group row">
              <label class="col-sm-2">지번주소</label>
              <div class="col-sm-3">
-                 <input name="jibunAddress" id="jibunAddress"  type="text" class="form-control" placeholder="지번주소">
+                 <input name="jibunAddress" id="jibunAddress"  type="text" class="form-control" placeholder="지번주소" required>
              </div>
          </div>
          <span id="guide" style="color:#999;display:none"></span>
          <div class="form-group row">
              <label class="col-sm-2">상세주소</label>
              <div class="col-sm-3">
-                 <input name="detailAddress"  id="detailAddress" type="text" class="form-control" placeholder="상세주소">
+                 <input name="detailAddress"  id="detailAddress" type="text" class="form-control" placeholder="상세주소" required>
              </div>
          </div>
          <div class="form-group row">
              <label class="col-sm-2">참고항목</label>
              <div class="col-sm-3">
-                 <input name="extraAddress"id="extraAddress" type="text" class="form-control" placeholder="참고항목">
+                 <input name="extraAddress"id="extraAddress" type="text" class="form-control" placeholder="참고항목" required>
              </div>
          </div>
-        
+       
+       <div class="form-gorup row">
+          <div class="col-sm-offset-2 col-sm-10">
+               <input type="submit" class="btn btn-primary" value="등록">
+               <input type="reset"  class="btn btn-warning" value="취소" onclick="reset()">
+          </div>
+       </div>
     </form>
- </div>
- 
- <div class="form-group row">
-   <div class="col-sm-offset-2 col-sm-10">
-      <input type="submit" class="btn btn-primary" value="등록">
-      <input type="reset" class="btn btn-warning" value="취소" onclick="reset()">
-   </div>
- </div>
- 
- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function Postcode() {
