@@ -187,7 +187,7 @@ function sendEmail(){
                 <input type="text" name="mail2" maxlength="50" required>
                  <select name="mail2_select" onchange="selectDomain(this)">
                     <option disabled="disabled" selected="selected">선택</option>
-                    <option>namver.com</option>
+                    <option>naver.com</option>
                     <option>daum.net</option>
                     <option>gmail.com</option>
                     <option>nate.com</option>
