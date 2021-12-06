@@ -6,7 +6,14 @@
 	   document.newMember.mail2.value=obj.value;  
 	   if(obj.value=="") document.newMember.mail2.focus();
    }
- </script>       
+ </script>   
+ <script>
+   function checkForm(){
+	   if(document.newMember.password.value!=document.newMember.password_confirm.value){
+		   alert
+	   }
+   }
+ </script>    
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>회원 가입</title> 
