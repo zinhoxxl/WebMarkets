@@ -86,6 +86,12 @@ function idChk(){
  }
 }
 </script>
+<script>
+  function sendEmail(){
+	  var rand = (int)(Math.random()*128);
+	  alert(rand);
+  }
+</script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>회원 가입</title>
