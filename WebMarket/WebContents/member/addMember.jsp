@@ -94,10 +94,13 @@ function idChk(){
 <script>
 function sendEmail(){
 	var mailId = document.newMember.mail1.value+'@'+document.newMember.mail2.value;
-	var emailPassword =prompt("이메일 비번을 입력하세요",'');
-if(emailPassword.length>0){	
+	//var emailPassword =prompt("이메일 비번을 입력하세요",'');
+	var emailPassword = document.getElementById('Emailpassword').value;
+	//alert(mailId+":"+emailPassword);
+	//console.log(mailId, emailPassword);
+ if(emailPassword.length>0){	
 		window.open("certMail.jsp?email="+mailId+"&emailPassword="+emailPassword);
-	  }
+	  } 
 }
 </script>
 <script>
@@ -119,6 +122,9 @@ function confirm(){
 </script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <title>회원 가입</title>
 </head>
 <body>
@@ -214,7 +220,7 @@ function confirm(){
         <div class="form-group row">
               <label class="col-sm-2">이메일 인증</label>
               <div class="col-sm-3">
-                   <input type="button" value="이메일 인증"  class="btn btn-success" onclick="sendEmail()">
+                   <input type="button" value="네이버메일 인증"  class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
                    <input class="form-control" name="cert" type="password" id="cert" value="">
                    <input class="form-control" name="cert_confirm" id="cert_confirm" type="password"value="">
                    <input type="button" value="확인" class="btn btn-success" onclick="confirm()">
@@ -276,6 +282,30 @@ function confirm(){
           </div>
        </div>
     </form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Email비밀번호:</label>
+            <input type="password" class="form-control" id="Emailpassword" name="emailPassword">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="sendEmail()">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>    
+    
   </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
