@@ -22,7 +22,7 @@
             	  out.print("</div>");
               }
           %>    
-          <form class="form-gignin" action="processLoginMember.jsp" method="post">
+          <form class="form-signin" action="processLoginMember.jsp" method="post">
              <div class="form-group">
                 <label for="inputUserName" class="sr-only">User Name</label>
                 <input type="text" class="form-control" placeholder="ID" name="id" required autofocus>
