@@ -32,6 +32,7 @@
                <input type="password" class="form-control" placeholder="Password" name="password" required>
              </div>
              <button class="btn btn btn-lg btn-success btn-block" type="submit">로그인</button>
+             <button class="btn btn btn-lg btn-warning btn-block" type="button" onclick="location.href='addMember.jsp'">회원가입</button>               
           </form> 
      </div>
   </div>
