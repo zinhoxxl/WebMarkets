@@ -69,11 +69,11 @@ function checkForm(){
 		return false;	
 	}
 	
-	if(!isConfirm){
+ 	if(!isConfirm){
 		alert("본인 인증을 해주세요!");
 		form.cert.focus();
 		return false;
-	}
+	} 
 	return true;
 }
 </script>
@@ -110,9 +110,9 @@ var isConfirm=false;
 function confirm(){
 	var cert1 = document.getElementById("cert").value;
 	var cert2= document.getElementById("cert_confirm").value;
-	if(cert1!=cert2){
-		alert("cert1:"+cert1);
-		alert("cert2:"+cert2);
+	if(cert1.length==0 || cert2.length==0){
+		alert("인증확인요망");
+	}else if(cert1!=cert2){
 		alert("인증확인요망");
 	}else{
 		alert("인증이 완료되었습니다.");
@@ -221,7 +221,7 @@ function confirm(){
               <label class="col-sm-2">이메일 인증</label>
               <div class="col-sm-3">
                    <input type="button" value="네이버메일 인증"  class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">
-                   <input class="form-control" name="cert" type="password" id="cert" value="">
+                   <input class="form-control" name="cert" type="password" id="cert" value="" readonly>
                    <input class="form-control" name="cert_confirm" id="cert_confirm" type="password"value="">
                    <input type="button" value="확인" class="btn btn-success" onclick="confirm()">
               </div>

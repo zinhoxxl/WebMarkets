@@ -70,11 +70,11 @@ function checkForm(){
 		return false;	
 	}
 	
-	if(!isConfirm){
+ 	/* if(!isConfirm){
 		alert("본인 인증을 해주세요!");
 		form.cert.focus();
 		return false;
-	}
+	}  */
 	return true;
 }
 </script>
@@ -98,9 +98,11 @@ function confirm(){
 		alert("cert1:"+cert1);
 		alert("cert2:"+cert2);
 		alert("인증확인요망");
+		console.log('인증확인요망','isConfirm:',isConfirm);
 	}else{
 		alert("인증이 완료되었습니다.");
 		isConfirm=true;
+		console.log('인증이 완료되었습니다.','isConfirm:',isConfirm);
 	}
 }
 </script>
@@ -109,8 +111,16 @@ function changePasswordForm(){
 	window.open("changePassword.jsp");
 }
 </script>
+<script>
+$(document).ready(function(){
+	console.log('first:',isConfirm);
+});
+</script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <%
 	String sessionId = (String)session.getAttribute("sessionId");
 %>
@@ -150,7 +160,7 @@ function changePasswordForm(){
      
     <div class="container">
        <form name="newMember" class="form-hotizontal" action="processUpdateMember.jsp" 
-             method="post" onsubmit="reutrn checkForm()">
+             method="post" onsubmit="return checkForm()">
        <div class="form-group row">
               <label class="col-sm-2">아이디</label>
               <div class="col-sm-3">
@@ -296,12 +306,33 @@ function changePasswordForm(){
           <div class="col-sm-offset-2 col-sm-10">
                <input type="submit" class="btn btn-primary" value="수정">
                <input type="reset"  class="btn btn-warning" value="취소" onclick="reset()">
+               <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">회원탈퇴</button>
           </div>
        </div>
        </form>
     </div><!-- container끝.  --> 
   </c:forEach>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        탈퇴하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='deleteMember.jsp'">회원탈퇴</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
