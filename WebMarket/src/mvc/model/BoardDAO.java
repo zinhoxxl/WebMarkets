@@ -90,4 +90,5 @@ public class BoardDAO {
 	}//insertBoard()메소드 끝.
      
      
+	
 }
