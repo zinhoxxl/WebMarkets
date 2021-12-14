@@ -27,6 +27,10 @@ public class BoardController extends HttpServlet {
 	/* ~~.do로 요청하는 모든 request는 BoardController가 제일먼저 처리  */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		
+		//문자셋 설정
+		request.setCharacterEncoding("UTF-8");
+		
 	   String requestURL = request.getRequestURL().toString();	
        String requestURI = request.getRequestURI();
        String contextPath = request.getContextPath();

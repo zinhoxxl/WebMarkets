@@ -60,13 +60,24 @@ public class BoardDAO {
     	 PreparedStatement pstmt = null;
     	 
     	 String name = null;
-    	 String sql = "select * from member where id=?";
+    	 String sql = "insert into board(id, name, subject, content, regist_day, hit, ip) "
+    			    + " values(?,?,?,?,?,?,?)";
     	 
     	 try {
-    		 
+    		 conn = DBConnection.getConnection();
+    		 pstmt = conn.prepareStatement(sql);
+    		 pstmt.setString(1, board.getId());
+    		 pstmt.setString(2, board.getName());
+    		 pstmt.setString(3, board.getSubject());
+    		 pstmt.setString(4, board.getContent());
+    		 pstmt.setString(5, board.getRegist_day());
+    		 pstmt.setInt(6, board.getHit());
+    		 pstmt.setString(7, board.getIp());
+    		 //DB에 저장 처리
+    		 pstmt.executeUpdate();
     		 
     	 }catch(Exception e) {
-    		 
+    		 System.out.println("에러 : " + e);
     	 }finally {
     		 try {
     			 if(pstmt!=null) pstmt.close();
