@@ -1,6 +1,8 @@
 package mvc.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mvc.model.BoardDAO;
+import mvc.model.BoardDTO;
 
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -55,6 +58,7 @@ public class BoardController extends HttpServlet {
        }
        else if(command.equals("/BoardWriteAction.do")) {//새 게시글 등록 프로세스 페이지 
     	   //DB에 신규등록 게시글 저장
+    	   requestBoardWrite(request);
            RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");//게시글 등록후 게시글 리스트로 이동
            rd.forward(request, response);
        }
@@ -82,6 +86,7 @@ public class BoardController extends HttpServlet {
        
 	}
 
+
 	//인증된 사용자명 얻기 (requestLoginName 으로 별도모듈화)
 	private void requestLoginName(HttpServletRequest request) {
         //파라미터로 넘어온 request의 id에 해당하는 값 얻기
@@ -94,4 +99,38 @@ public class BoardController extends HttpServlet {
 	    request.setAttribute("name", name);
 	}
 
+	//새로운 글 등록하기
+	private void requestBoardWrite(HttpServletRequest request) {
+		//DB저장 객체 생성
+		BoardDAO dao = BoardDAO.getInstance();
+		//request로 부터 파라미터 이름에 해당하는 값 얻기
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		
+		//등록일자 정보 생성
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd(HH:mm:ss)");
+		String regist_day = formatter.format(new Date());
+		String ip = request.getRemoteAddr();
+		
+		//insertBoard() 메소드에 넘길 객체 생성 후, 속성에 값 설정
+		BoardDTO board = new BoardDTO();
+		board.setId(id);
+		board.setName(name);
+		board.setSubject(subject);
+		board.setContent(content);
+		board.setRegist_day(regist_day);
+		board.setHit(0);
+		board.setIp(ip);
+		
+		//DAO에서 DB에 저장하기 위해 메소드 호출
+		dao.insertBoard(board);
+		
+	}
+
 }
+
+
+
+

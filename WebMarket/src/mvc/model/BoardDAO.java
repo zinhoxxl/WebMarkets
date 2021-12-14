@@ -53,6 +53,30 @@ public class BoardDAO {
     	 
     	 return null;
      }
+
+     //DB에 저장하는 메소드
+	public void insertBoard(BoardDTO board) {
+		 Connection conn = null;
+    	 PreparedStatement pstmt = null;
+    	 
+    	 String name = null;
+    	 String sql = "select * from member where id=?";
+    	 
+    	 try {
+    		 
+    		 
+    	 }catch(Exception e) {
+    		 
+    	 }finally {
+    		 try {
+    			 if(pstmt!=null) pstmt.close();
+    			 if(conn!=null) conn.close();
+    		 }catch(Exception e) {
+    			 throw new RuntimeException(e.getMessage());
+    	     }
+    	 }
+    	 
+	}//insertBoard()메소드 끝.
      
      
 }
