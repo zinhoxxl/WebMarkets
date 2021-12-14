@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvc.model.BoardDAO;
+
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -47,6 +49,7 @@ public class BoardController extends HttpServlet {
        }
        else if(command.equals("/BoardWriteForm.do")) {//새 게시글 등록 페이지 요청
     	   //로그인 후 게시글 등록 페이지로 이동했는지, 로그인 한 작성자 이름 얻기
+    	       requestLoginName(request);
                RequestDispatcher rd = request.getRequestDispatcher("/board/writeForm.jsp");
                rd.forward(request, response);
        }
@@ -78,4 +81,17 @@ public class BoardController extends HttpServlet {
        }
        
 	}
+
+	//인증된 사용자명 얻기 (requestLoginName 으로 별도모듈화)
+	private void requestLoginName(HttpServletRequest request) {
+        //파라미터로 넘어온 request의 id에 해당하는 값 얻기
+		String id = request.getParameter("id");
+	    
+	    //DB에서 id에 해당하는 name정보 얻기
+	    BoardDAO dao = BoardDAO.getInstance();
+	    String name = dao.getLoginNameById(id); //id에 해당하는 name 얻기 메소드
+	    
+	    request.setAttribute("name", name);
+	}
+
 }
