@@ -8,7 +8,7 @@
  List<BoardDTO>boardList =(List<BoardDTO>)request.getAttribute("boardlist");
  int startPage = (Integer)request.getAttribute("startPage");
  int endPage=(Integer)request.getAttribute("endPage");
- int fianlPage = (Integer)request.getAttribute("finalPage");
+ int finalPage = (Integer)request.getAttribute("finalPage");
  
 %>    
 <!DOCTYPE html><html><head>
@@ -64,10 +64,10 @@ function checkForm(){
        %>   
        </table>
     </div><!-- 페이지별 게시글 리스트 출력 영역 끝. -->
-   <div align="center">
+   <div>
      <c:set var="pageNum" value="<%=pageNum%>"/>
 	   <nav aria-label="...">
-	   <ul class="pagination">
+	   <ul class="pagination justify-content-center">
 	  
 	   <c:if test="${startPage-1==1 }">
 	   <li class="page-item  disabled"> 
