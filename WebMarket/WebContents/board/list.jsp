@@ -54,8 +54,7 @@ function checkForm(){
        %> 	    
         <tr>
          <td><%=notice.getNum()%></td>
-         <td><a href="./BoardViewAction.do?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject() %></a>
-         <td><%=notice.getSubject() %></td>
+         <td><a href="./BoardViewAction.do?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject()%></a></td>
          <td><%=notice.getRegist_day() %></td>
          <td><%=notice.getHit() %></td>
          <td><%=notice.getName() %></td>
@@ -65,48 +64,47 @@ function checkForm(){
        %>   
        </table>
     </div><!-- 페이지별 게시글 리스트 출력 영역 끝. -->
-   <div>
+   <div align="center">
      <c:set var="pageNum" value="<%=pageNum%>"/>
-	   <nav aria-label="...">
-	   <ul class="pagination justify-content-center"> <%-- 페이지넘버 중앙 정렬 --%>
-	  
-	   <c:if test="${startPage-1==1 }">
-	   <li class="page-item  disabled"> 
-	     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}"/>">Previous</a> 
-	    </li>
-	   </c:if>
-	   <c:if test="${startPage-1>1 }">
-	    <li class="page-item"> 
-	     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}"/>">Previous</a> 
-	    </li>
-	  </c:if>
-	      
-	     <c:forEach var="i" begin="<%=startPage%>" end="<%=endPage%>">
-	         <c:choose>
-	            <c:when test="${pageNum==i }">
-	                 <li class="page-item active" aria-current="page">
-	                    <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">${i}</a>
-	                  </li>
-	            </c:when>
-	            <c:otherwise>
-	                   <li class="page-item"><a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">${i}</a></li>
-	            </c:otherwise>
-	         </c:choose>
-	     </c:forEach>
-	     <c:if test="${endPage+1==finalPage }">
-	   <li class="page-item  disabled"> 
-	     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}"/>">Next</a> 
-	    </li>
-	   </c:if>
-	   <c:if test="${endPage+1 < finalPage }">
-	    <li class="page-item"> 
-	     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}"/>">Next</a> 
-	    </li>
-	  </c:if>
-	   </ul>
-	</nav>
+   <nav aria-label="...">
+   <ul class="pagination justify-content-center">
+  
+   <c:if test="${startPage-1==1 }">
+   <li class="page-item  disabled"> 
+     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}"/>">Previous</a> 
+    </li>
+   </c:if>
+   <c:if test="${startPage-1>1 }">
+    <li class="page-item"> 
+     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}"/>">Previous</a> 
+    </li>
+  </c:if>
+      
+     <c:forEach var="i" begin="<%=startPage%>" end="<%=endPage%>">
+         <c:choose>
+            <c:when test="${pageNum==i }">
+                 <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">${i}</a>
+                  </li>
+            </c:when>
+            <c:otherwise>
+                   <li class="page-item"><a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">${i}</a></li>
+            </c:otherwise>
+         </c:choose>
+     </c:forEach>
+     <c:if test="${endPage+1==finalPage }">
+   <li class="page-item  disabled"> 
+     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}"/>">Next</a> 
+    </li>
+   </c:if>
+   <c:if test="${endPage+1 < finalPage }">
+    <li class="page-item"> 
+     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${endPage+1}"/>">Next</a> 
+    </li>
+  </c:if>
+   </ul>
+</nav>
    </div>
-
    <a href="#" onclick="checkForm(); return false;" class="btn btn-primary">&laquo;글쓰기</a>
   </form> 
   <hr>
