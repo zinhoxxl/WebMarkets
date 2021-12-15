@@ -21,7 +21,7 @@ public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	//게시글 페이지당 조회결과 건수 상수 선언
-	static final int LISTCOUNT = 5;
+	static final int LISTCOUNT = 10;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
