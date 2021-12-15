@@ -9,6 +9,10 @@
  int startPage = (Integer)request.getAttribute("startPage");
  int endPage=(Integer)request.getAttribute("endPage");
  int finalPage = (Integer)request.getAttribute("finalPage");
+ String items = (String)request.getAttribute("items")==null?""
+		                :(String)request.getAttribute("items");
+ String text = (String)request.getAttribute("text")==null?""
+		                :(String)request.getAttribute("text");
  
 %>    
 <!DOCTYPE html><html><head>
@@ -105,7 +109,24 @@ function checkForm(){
    </ul>
 </nav>
    </div>
-   <a href="#" onclick="checkForm(); return false;" class="btn btn-primary">&laquo;글쓰기</a>
+   <div align="left">
+      <table>
+        <tr>
+         <td width="100%" align="left">&nbsp;&nbsp;
+          <select name="items" class="txt">
+                <option value="subject" <%=items.equals("subject")?"selected":"" %>>제목에서</option>
+                <option value="content" <%=items.equals("content")?"selected":"" %>>본문에서</option>
+                <option value="name" <%=items.equals("name")?"selected":"" %>>글쓴이에서</option>
+          </select>
+                <input name="text" type="search" value="<%=text %>">
+                <input type="submit" id="btnAdd" class="btn btn-primary" value="검색">
+         </td>
+         <td width="100%" align="right">
+        <a href="#" onclick="checkForm(); return false;" class="btn btn-primary">&laquo;글쓰기</a>
+         </td>
+        </tr>
+      </table>
+   </div>
   </form> 
   <hr>
 </div>

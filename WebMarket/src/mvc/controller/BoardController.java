@@ -81,7 +81,7 @@ public class BoardController extends HttpServlet {
            rd.forward(request, response);
        }else if(command.equals("/BoardView.do")) {//상세페이지 요청
     	 //게시글 리스트에서 글 번호에 해당하는 게시글 정보를 DB에서 얻기
-    	  //조회수 증가 처리 hit = hit+1  
+    	  //조회수 증가 처리 hit = hit+1
     	   requestUpdateHit(request);
            RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
            rd.forward(request, response);
@@ -91,34 +91,30 @@ public class BoardController extends HttpServlet {
            RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");//게시글 리스트페이지로 이동
            rd.forward(request, response);
        }else if(command.equals("/BoardDeleteAction.do")) {//게시글 삭제요청
-    	   //삭제할 글 번호를 파라미터로 받아서 db에서 삭제 처리  
+    	   //삭제할 글 번호를 파라미터로 받아서 db에서 삭제 처리
     	   requestBoardDelete(request);
            RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");//게시글 리스트로 이동
            rd.forward(request, response);
        }
        
 	}
-
 	
 	//선택글 삭제 처리
-	private void requestBoardDelete(HttpServletRequest request) {
-		//파라미터로 넘어온 값 얻기
-		 int num = Integer.parseInt(request.getParameter("num"));
-		 int pageNum =Integer.parseInt(request.getParameter("pageNum"));
-		 //DB억세스 객체 생성
-		 BoardDAO dao = BoardDAO.getInstance();
-		 dao.deleteBoard(num);
-		
+    private void requestBoardDelete(HttpServletRequest request) {
+   	 //파라미터로 넘어온 값 얻기
+   	 int num = Integer.parseInt(request.getParameter("num"));
+   	 int pageNum =Integer.parseInt(request.getParameter("pageNum"));
+   	 //DB억세스 객체 생성
+   	 BoardDAO dao = BoardDAO.getInstance();
+   	 dao.deleteBoard(num);
 	}
 
-	
-	//게시글 조회 수 증가 처리
+	//게시글 조회수 증가 처리
 	private void requestUpdateHit(HttpServletRequest request) {
 		int num = Integer.parseInt(request.getParameter("num"));
-		//DB억세스 객체 생성
+	    //DB억세스 객체 생성
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.updateHit(num);
-		
 	}
 
 	//글 수정 처리
@@ -169,7 +165,7 @@ public class BoardController extends HttpServlet {
 
 	}
 
-	//등록되 글 목록 가져오기
+	//등록된 글 목록 가져오기
 	private void requestBoardList(HttpServletRequest request) {
 		//DB억세스 객체 생성
 		BoardDAO dao = BoardDAO.getInstance();
@@ -182,9 +178,15 @@ public class BoardController extends HttpServlet {
 		if(request.getParameter("pageNum")!=null)
 			pageNum=Integer.parseInt(request.getParameter("pageNum"));
 		
+		//검색조회 파라미터 얻기
+		String items =request.getParameter("items");
+		String text = request.getParameter("text");
+				
 		//DB로 부터 페이지당 갯수 별로 리스트 생성
-		boardList = dao.getBoardList(pageNum, limit);
-		int total_record = dao.getListCount();
+		//boardList = dao.getBoardList(pageNum, limit);
+		boardList = dao.getBoardList(pageNum, limit, items, text);
+		//int total_record = dao.getListCount();
+		int total_record = dao.getListCount(items, text);
 		
 		//전체 글 갯수 얻기
 		int total_page;
@@ -218,9 +220,10 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("finalPage",finalPage);
+		request.setAttribute("items", items);
+		request.setAttribute("text", text);
 	}
 
-	
 	//인증된 사용자명 얻기
 	private void requestLoginName(HttpServletRequest request) {
         //파라미터로 넘어온 request의 id에 해당하는 값 얻기
@@ -233,7 +236,6 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("name", name);
 	}
 
-	
 	//새로울 글 등록하기
 	private void requestBoardWrite(HttpServletRequest request) {
 		//DB저장 객체 생성
@@ -262,7 +264,4 @@ public class BoardController extends HttpServlet {
 		//DAO에서 DB에 저장하기 위해 메소드 호출
 		dao.insertBoard(board);
 	}
-	
-	
-	
 }
