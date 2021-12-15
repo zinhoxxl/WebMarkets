@@ -180,6 +180,45 @@ public class BoardDAO {
 	   return x;
   } //getListCount() 끝.
      
+   
+   
+   //글번호에 해당하는 글 정보 얻기 메소드
+   public BoardDTO getBoardByNum(int num, int pageNum){
+	   BoardDTO board = new BoardDTO();
+	   Connection conn = null;
+	   PreparedStatement pstmt = null;
+	   ResultSet rs = null;
+	   
+	   String sql = "select * from board where num=?"; //글 번호에 해당하는 글 정보 얻기
+	   
+	   try {
+		   conn = DBConnection.getConnection();
+		   pstmt = conn.prepareStatement(sql); 
+		   rs = pstmt.executeQuery();
+		   if(rs.next()) {
+			   //조회된 레코드로부터 속성값 설정
+			   board.setNum(rs.getInt(1));
+			   board.setId(rs.getString(2));
+			   board.setName(rs.getString(3));
+			   board.setSubject(rs.getString(4));
+			   board.setContent(rs.getString(5));
+			   board.setRegist_day(rs.getString(6));
+			   board.setHit(rs.getInt(7));
+			   board.setIp(rs.getString(8));
+		   }
+	   }catch(Exception e) {
+		   System.out.println("에러 : " + e); //e.toString() 자동 호출
+	   }finally {
+			 try {
+				 if(rs!=null) rs.close(); if(pstmt!=null) pstmt.close();
+				 if(conn!=null) conn.close();
+			 }catch(Exception e) {
+				 throw new RuntimeException(e.getMessage());
+			 }
+		 }
+	   return board;
+   }//getBoardByNum 끝.
+  
      
 	
 }

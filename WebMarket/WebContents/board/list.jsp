@@ -54,6 +54,7 @@ function checkForm(){
        %> 	    
         <tr>
          <td><%=notice.getNum()%></td>
+         <td><a href="./BoardViewAction.do?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject() %></a>
          <td><%=notice.getSubject() %></td>
          <td><%=notice.getRegist_day() %></td>
          <td><%=notice.getHit() %></td>
@@ -67,7 +68,7 @@ function checkForm(){
    <div>
      <c:set var="pageNum" value="<%=pageNum%>"/>
 	   <nav aria-label="...">
-	   <ul class="pagination justify-content-center">
+	   <ul class="pagination justify-content-center"> <%-- 페이지넘버 중앙 정렬 --%>
 	  
 	   <c:if test="${startPage-1==1 }">
 	   <li class="page-item  disabled"> 
