@@ -82,10 +82,12 @@ public class BoardController extends HttpServlet {
        }else if(command.equals("/BoardView.do")) {//상세페이지 요청
     	 //게시글 리스트에서 글 번호에 해당하는 게시글 정보를 DB에서 얻기
     	  //조회수 증가 처리 hit = hit+1  
+    	   requestUpdateHit(request);
            RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
            rd.forward(request, response);
        }else if(command.equals("/BoardUpdateAction.do")) {//게시글 수정 처리 요청
-    	   //수정된 내용을 파라미터로 받아서 db에 수정처리  
+    	   //수정된 내용을 파라미터로 받아서 db에 수정처리
+    	   requestBoardUpdate(request);
            RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");//게시글 리스트페이지로 이동
            rd.forward(request, response);
        }else if(command.equals("/BoardDeleteAction.do")) {//게시글 삭제요청
@@ -94,6 +96,43 @@ public class BoardController extends HttpServlet {
            rd.forward(request, response);
        }
        
+	}
+
+	//게시글 조회 수 증가 처리
+	private void requestUpdateHit(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		//DB억세스 객체 생성
+		BoardDAO dao = BoardDAO.getInstance();
+		dao.updateHit(num);
+		
+	}
+
+	//글 수정 처리
+	private void requestBoardUpdate(HttpServletRequest request) {
+	 //파라미터로 넘어온 값 얻기
+	 int num = Integer.parseInt(request.getParameter("num"));
+	 int pageNum =Integer.parseInt(request.getParameter("pageNum"));
+	 //DB억세스 객체 생성
+	 BoardDAO dao = BoardDAO.getInstance();
+	 
+	 //BoardDTO객체 생성
+	 BoardDTO board = new BoardDTO();
+	 board.setId(request.getParameter("id"));
+	 board.setNum(num);
+	 board.setName(request.getParameter("name"));
+	 board.setSubject(request.getParameter("subject"));
+	 board.setContent(request.getParameter("content"));
+	 
+	 //등록(수정)일자 변경
+	 SimpleDateFormat formatter =new SimpleDateFormat("yyyy/MM/dd(HH:mm:ss)");
+	 String regist_day = formatter.format(new Date());
+	 
+	 board.setRegist_day(regist_day);
+	 board.setIp(request.getRemoteAddr());
+	
+	 //수정 메소드 호출
+	 dao.updateBoard(board);
+	 
 	}
 
 	//상세 글 페이지 가져오기
@@ -167,6 +206,7 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("finalPage",finalPage);
 	}
 
+	
 	//인증된 사용자명 얻기
 	private void requestLoginName(HttpServletRequest request) {
         //파라미터로 넘어온 request의 id에 해당하는 값 얻기
@@ -179,6 +219,7 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("name", name);
 	}
 
+	
 	//새로울 글 등록하기
 	private void requestBoardWrite(HttpServletRequest request) {
 		//DB저장 객체 생성
@@ -207,4 +248,7 @@ public class BoardController extends HttpServlet {
 		//DAO에서 DB에 저장하기 위해 메소드 호출
 		dao.insertBoard(board);
 	}
+	
+	
+	
 }
