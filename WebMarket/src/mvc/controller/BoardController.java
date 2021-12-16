@@ -1,19 +1,25 @@
 package mvc.controller;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mvc.command.Command;
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
 
@@ -23,14 +29,56 @@ public class BoardController extends HttpServlet {
 	//게시글 페이지당 조회결과 건수 상수 선언
 	static final int LISTCOUNT = 10;
 	
+	//클래스들을 Key는 command이고 객체는 Command타입으로 저장하기위한 map생성 
+	private Map<String,Command> commandMap = new HashMap<>();
+
+	//tomcat 기동시 command객체들을 만들어서 commandMap에 저장
 	@Override
 	public void init() throws ServletException {
-		//web.xml의 init-param값 읽어 처리
+	 //web.xml의 init-param값 읽어 처리
 		String configFile = getInitParameter("configFile");
-		System.out.println("configFile : " + configFile);
-		
+		System.out.println("configFile:"+configFile);
+		//<문자열,문자열> 값 읽기 <- properties
+		Properties prop = new Properties();
+		//File system상의 물리적인 경로
+		String configFilePath = getServletContext().getRealPath(configFile);
+		System.out.println("configFilePath:"+configFilePath);
+		//File system의 properties파일과 문자단위의 입력 스트림 경로 설정(객체 생성)
+	    try(FileReader fis =new FileReader(configFilePath)) {
+	    	   //properties객체로 저장하기
+	    	prop.load(fis);
+	    /*  System.out.println(prop.get("/BoardListAction.do"));	
+	      Set keySet = prop.keySet();
+	      Iterator itor = keySet.iterator();
+	      while(itor.hasNext()) {
+	    	  String key = (String)itor.next();
+	    	  System.out.println(key+"="+prop.get(key));
+	      } */
+	      //propteries파이로부터 읽어들인 정보를 추출하여 객체 생성
+	      Iterator keyItor = prop.keySet().iterator();
+	      while(keyItor.hasNext()) {
+	    	  String command =(String)keyItor.next();
+	    	  String className = prop.getProperty(command);
+	    	  Class<?> action = Class.forName(className);
+	    	  //properties의 value에 해당하는 문자열로 객체 생성
+	    	  Command actionCommand=(Command) action.newInstance();// new mvc.command.BoardUpdateAction();
+	    	  commandMap.put(command, actionCommand);  
+	      }
+	      
+	      Iterator it = commandMap.keySet().iterator();
+	      System.out.println("commandMap에 저장된 객체 정보 출력");
+	      while(it.hasNext()) {
+	    	  String c = (String)it.next();
+	    	  Command a = commandMap.get(c);
+	    	  System.out.println(c+"="+a.getClass().getName());
+	      }
+	      
+	    }catch(Exception e) {
+	    	
+	    }
 	}
-
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		doGet(request, response);
@@ -297,4 +345,5 @@ public class BoardController extends HttpServlet {
 		//DAO에서 DB에 저장하기 위해 메소드 호출
 		dao.insertBoard(board);
 	}
+
 }
