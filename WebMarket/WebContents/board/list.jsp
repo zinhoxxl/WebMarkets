@@ -19,11 +19,11 @@
 <meta charset="UTF-8">
 <script>
 function checkForm(){
-	if(${sessionId==null}){
+	if(${sessionScope.sessionId==null}){
 		alert("로그인 해주세요");
 		return false;
 	}
-	location.href="./BoardWriteForm.do?id=<%=sessionId %>";
+	location.href="./BoardWriteForm.do?id=${sessionScope.sessionId}";
 }
 </script>
 <title>게시판</title>
@@ -39,7 +39,7 @@ function checkForm(){
   <form action="<c:url value="./BoardListAction.do"/>" method="post">  
     <div>
       <div class="text-right">
-             <span class="badge badge-success">전체 <%=total_record %></span>
+             <span class="badge badge-success">전체 ${total_record}></span>
       </div>
     </div>
     <div style="padding-top:50px">
@@ -68,7 +68,7 @@ function checkForm(){
        </table>
     </div><!-- 페이지별 게시글 리스트 출력 영역 끝. -->
    <div align="center">
-     <c:set var="pageNum" value="<%=pageNum%>"/>
+     <c:set var="pageNum" value="${pageNum}"/>
    <nav aria-label="...">
    <ul class="pagination justify-content-center">
   
@@ -83,7 +83,7 @@ function checkForm(){
     </li>
   </c:if>
       
-     <c:forEach var="i" begin="<%=startPage%>" end="<%=endPage%>">
+     <c:forEach var="i" begin="${startPage}" end="${endPage}">
          <c:choose>
             <c:when test="${pageNum==i }">
                  <li class="page-item active" aria-current="page">
@@ -113,11 +113,11 @@ function checkForm(){
         <tr>
          <td width="100%" align="left">&nbsp;&nbsp;
           <select name="items" class="txt">
-                <option value="subject" <%=items.equals("subject")?"selected":""%>>제목에서</option>
-                <option value="content" <%=items.equals("content")?"selected":""%>>본문에서</option>
-                <option value="name" <%=items.equals("name")?"selected":""%> >글쓴이에서</option>
+                <option value="subject" <c:if test="${items=='subject'}">selected</c:if>>제목에서</option>
+                <option value="content" <c:if test="${items=='content'}">selected</c:if>>본문에서</option>
+                <option value="name" <c:if test="${items=='name'}">selected</c:if>>글쓴이에서</option>
           </select>
-                <input name="text" type="search" value="<%=text%>">
+                <input name="text" type="search" value="${text}">
                 <input type="submit" id="btnAdd" class="btn btn-primary" value="검색">
          </td>
          <td width="100%" align="right">
