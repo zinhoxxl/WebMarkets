@@ -1,19 +1,5 @@
-<%@page import="mvc.model.BoardDTO"%><%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String sessionId=(String)session.getAttribute("sessionId"); 
- int pageNum =(Integer)request.getAttribute("pageNum");
- int total_page=(Integer)request.getAttribute("total_page");
- int total_record=(Integer)request.getAttribute("total_record");
- List<BoardDTO>boardList =(List<BoardDTO>)request.getAttribute("boardlist");
- int startPage = (Integer)request.getAttribute("startPage");
- int endPage=(Integer)request.getAttribute("endPage");
- int finalPage = (Integer)request.getAttribute("finalPage");
- String items =(String)request.getAttribute("items")==null?"":(String)request.getAttribute("items");
- String text=(String)request.getAttribute("text")==null?""
-		              :(String)request.getAttribute("text");
- 
-%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html><html><head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <meta charset="UTF-8">
@@ -39,7 +25,7 @@ function checkForm(){
   <form action="<c:url value="./BoardListAction.do"/>" method="post">  
     <div>
       <div class="text-right">
-             <span class="badge badge-success">전체 ${total_record}></span>
+             <span class="badge badge-success">전체 ${total_record}</span>
       </div>
     </div>
     <div style="padding-top:50px">
@@ -51,21 +37,21 @@ function checkForm(){
              <th>조회</th>
              <th>글쓴이</th>
             </tr>
-       <%
-         for(int j=0;j<boardList.size();j++){
-        	    BoardDTO notice = boardList.get(j);
-       %> 	    
+     
+   <c:if test="${not empty boardlist }">
+     <c:forEach items="${boardlist}"  var="notice">          
         <tr>
-         <td><%=notice.getNum()%></td>
-         <td><a href="./BoardViewAction.do?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>&items=${items}&text=${text}"><%=notice.getSubject()%></a></td>
-         <td><%=notice.getRegist_day() %></td>
-         <td><%=notice.getHit() %></td>
-         <td><%=notice.getName() %></td>
-        </tr>        	    	    
-        <% 
-        }
-       %>   
+         <td>${notice.num}</td>
+         <td><a href="./BoardViewAction.do?num=${notice.num}&pageNum=${pageNum}&items=${items}&text=${text}">${notice.subject}</a></td>
+         <td>${notice.regist_day}</td>
+         <td>${notice.hit}</td>
+         <td>${notice.name}</td>
+        </tr>        	    	       
+      </c:forEach>
+   </c:if>  
+    
        </table>
+       
     </div><!-- 페이지별 게시글 리스트 출력 영역 끝. -->
    <div align="center">
      <c:set var="pageNum" value="${pageNum}"/>
@@ -113,9 +99,9 @@ function checkForm(){
         <tr>
          <td width="100%" align="left">&nbsp;&nbsp;
           <select name="items" class="txt">
-                <option value="subject" <c:if test="${items=='subject'}">selected</c:if>>제목에서</option>
+                <option value="subject"  <c:if test="${items=='subject'}">selected</c:if>>제목에서</option>
                 <option value="content" <c:if test="${items=='content'}">selected</c:if>>본문에서</option>
-                <option value="name" <c:if test="${items=='name'}">selected</c:if>>글쓴이에서</option>
+                <option value="name" <c:if test="${items=='name'}">selected</c:if> >글쓴이에서</option>
           </select>
                 <input name="text" type="search" value="${text}">
                 <input type="submit" id="btnAdd" class="btn btn-primary" value="검색">
