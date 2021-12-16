@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,14 @@ public class BoardController extends HttpServlet {
 	//게시글 페이지당 조회결과 건수 상수 선언
 	static final int LISTCOUNT = 10;
 	
+	@Override
+	public void init() throws ServletException {
+		//web.xml의 init-param값 읽어 처리
+		String configFile = getInitParameter("configFile");
+		System.out.println("configFile : " + configFile);
+		
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		doGet(request, response);
