@@ -23,7 +23,7 @@ public class BoardUpdateAction implements Command{
 		 //DB억세스 객체 생성
 		 BoardDAO dao = BoardDAO.getInstance();
 		 
-		 //BoardDTO객체 생성
+		 //BoardDTO객체 생성 (파라미터 설정)
 		 BoardDTO board = new BoardDTO();
 		 board.setId(request.getParameter("id"));
 		 board.setNum(num);

@@ -250,6 +250,7 @@ public int getListCount(int pageNum, int limit, String items, String text) {
 		return board; //BoardDTO객체 리턴
   } //getBoardByNum() 끝.
   
+  
  //게시글 조회수 증가 메소드 
 public void updateHit(int num) {
 	Connection conn=null;
@@ -275,6 +276,13 @@ public void updateHit(int num) {
 		  }
 	  } 
 } //updateHit() 끝.
+
+
+//게시글 내용 수정
+public void updateBoard(BoardDTO board) {
+	
+	
+}
 
 
 }
