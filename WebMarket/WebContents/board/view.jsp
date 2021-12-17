@@ -54,7 +54,7 @@ function confirmDelete(num,pageNum,items,text){
 
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제
         </button>
-             <input type="submit" class="btn btn-success" value="수정">
+             <input type="button" class="btn btn-success" value="수정" onClick="location.href='./board/writeUpdateForm.jsp'">
             </c:if>
             <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
         </div>
