@@ -65,14 +65,11 @@ public class BoardController extends HttpServlet {
 	}
 	
 	
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
-	
-	
 	/* ~~.do로 요청하는 모든 request는 BoardController가 제일먼저 처리  */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -86,8 +83,6 @@ public class BoardController extends HttpServlet {
        action(request,response);
        
 }//doGet()메소드 끝.
-	
-	
 	
  //request요청을 처리하는 메소드	
  private void action(HttpServletRequest request, 
@@ -112,7 +107,7 @@ public class BoardController extends HttpServlet {
      try {
     	//command에 해당하는 객체의 action메소드 실행(각 요청의 서비스 로 분기 처리) 후 
     	// 이동페이지 얻기
-       viewPage=commandAction.action(request, response);
+       viewPage=commandAction.action(request, response);//다형성을 이용한 메소드 실행
      }catch(Throwable e) {
     	 throw new ServletException(e);
      }
@@ -121,8 +116,7 @@ public class BoardController extends HttpServlet {
     	 RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
     	 dispatcher.forward(request, response);
      }
-  }
+ }
 
- 
 
 }

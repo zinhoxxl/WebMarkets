@@ -10,5 +10,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="lib" path="/Library/Java/JavaVirtualMachines/ojdbc8-full/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="/Users/alpha/MySQL/mysql-connector-java-8.0.27.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
