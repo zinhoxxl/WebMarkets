@@ -1,5 +1,6 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.mysql.cj.xdevapi.PreparableStatement"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
@@ -22,7 +23,7 @@
    <%@ include file="dbconn.jsp" %>
    
    <div class="text-right">
-         <a href="?language=ko">Korean</a> | <a href="?language=en">English</a>
+         <a href="?language=ko">Korean</a>|<a href="?language=en">English</a>
          <a href="logout.jsp" class="btn btn-sm btn-success pull-right">logout</a>
    </div>
   <form name="newProduct" action="./processAddProduct.jsp" class="form-horizontal" 
@@ -64,7 +65,7 @@
          <select name="manufacturer" class="form-control" required>
            <%
               while(rs.next()){
-            	  out.print("<option value='"+rs.getString(1)+"'>"+rs.getString(1)+"</option>");
+            	  out.print("<option value='"+rs.getString(1)+"'>"+rs.getString(2)+"</option>");
               }
            %>
          </select>
@@ -78,7 +79,7 @@
             pstmt = conn.prepareStatement("select p_category, name from category");
             rs = pstmt.executeQuery();
               while(rs.next()){
-            	  out.print("<option value='"+rs.getString(1)+"'>"+rs.getString(1)+"</option>");
+            	  out.print("<option value='"+rs.getString(1)+"'>"+rs.getString(2)+"</option>");
               }
            %>
          </select>
