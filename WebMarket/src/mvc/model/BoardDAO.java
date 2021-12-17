@@ -30,6 +30,7 @@ public class BoardDAO {
 	  String sql="select * from member where id=?";
 	  
 	  try {
+		    //Mysql용 dB접속 Connection 객체
 		    conn=DBConnection.getConnection();
 		    pstmt=conn.prepareStatement(sql);
 		    pstmt.setString(1, id);

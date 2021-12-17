@@ -8,11 +8,11 @@ public class DBConnection {
 	public static Connection getConnection() throws SQLException,ClassNotFoundException{
 		Connection conn = null;
 		
-		String url = "jdbc:mysql://localhost:3306/WebMarketDB";
-		String user = "root";
-		String password = "root";
+		String url = "jdbc:oracle:thin:@db202110231136_high?TNS_ADMIN=/Users/alpha/oracle/Wallet_DB202110231136";
+		String user="admin";
+		String password="Jh12345678!!";
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		Class.forName("oracle.jdbc.OracleDriver");
 		conn = DriverManager.getConnection(url,user,password);
 		return conn;
 		
