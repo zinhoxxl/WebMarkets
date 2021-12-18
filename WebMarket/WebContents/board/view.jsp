@@ -10,7 +10,7 @@
 <title>글 내용 보기</title>
 <script>
 function confirmDelete(num,pageNum,items,text,attachFile){
- location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text+"&attachFile="+attachFile;
+ location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text;
 }
 </script>
 </head>
@@ -23,9 +23,11 @@ function confirmDelete(num,pageNum,items,text,attachFile){
 </div>
 
 <div class="container">
-    <form name="newUpdate" 
-          action="BoardUpdateAction.do?num=${board.num}&pageNum=${page}&items=${items}&text=${text}"
-          class="form-horizontal" method="post" >
+    <form name="updateWrite" action="./BoardWriteAction.do"
+      class="form-horizontal" 
+      method="post" 
+      enctype="multipart/form-data" 
+      onsubmit="return checkForm()">
          <input type="hidden" name="id" value="${sessionId}"><!-- request->session->application순으로 조회 -->
     <div class="form-group row">
         <label class="col-sm-2 control-label">성명</label>
@@ -49,7 +51,7 @@ function confirmDelete(num,pageNum,items,text,attachFile){
      <div class="form-group row">
       <label class="col-sm-2 control-label">이미지</label>
        <div class="col-sm-5">
-         <input type="file" name="attachFile" class="form-control" id="input-image" value="${board.attachFile}">
+         <input type="file" name="attachFile" class="form-control" id="input-image">
          <img style="width: 500px;" id="preview-image" >
          
        </div>
@@ -60,11 +62,10 @@ function confirmDelete(num,pageNum,items,text,attachFile){
             <c:if test="${sessionId==userId}"><!-- 작성자와 로그인 아이디가 같은 경우 버튼 보이기  -->
               <p>
 
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제
-        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제</button>
              <input type="submit" class="btn btn-success" value="수정">
             </c:if>
-            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}&attachFile=${input-image}" class="btn btn-primary">목록</a>
+            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
         </div>
         
     </div>
