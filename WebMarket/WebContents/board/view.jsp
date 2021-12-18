@@ -34,7 +34,7 @@ function checkForm(){
 <div class="container">
     <form name="newUpdate" 
           action="BoardUpdateAction.do?num=${board.num}&pageNum=${page}&items=${items}&text=${text}"
-          class="form-horizontal" method="post">
+          class="form-horizontal" method="post"> 
          <input type="hidden" name="id" value="${sessionId}"><!-- request->session->application순으로 조회 -->
     <div class="form-group row">
         <label class="col-sm-2 control-label">성명</label>
@@ -56,7 +56,7 @@ function checkForm(){
         </div>
     </div>
     <div class="form-group row" >
-      <label class="col-sm-2 control-label">이미지</label>
+      <label class="col-sm-2 control-label" >이미지</label>
        <div class="col-sm-5">
          <input type="file" name="filename" class="form-control" id="input-image">
          <img style="width: 500px;" id="preview-image" >
