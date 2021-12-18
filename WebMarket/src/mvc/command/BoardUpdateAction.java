@@ -6,9 +6,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
 
@@ -16,12 +13,6 @@ public class BoardUpdateAction implements Command{
 	@Override
 	public String action(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		//upload처리
-	     String filename="";
-	     String realFolder = "/Users/alpha/upload/board";//웹 어플리케이션상의 절대 경로
-	     int maxSize = 10 * 1024 * 1024;//5mb - 전송될 파일의 최대 크기
-	     String encType = "utf-8";
-	     		
 		//글 수정 처리
 		 //파라미터로 넘어온 값 얻기
 		 int num = Integer.parseInt(request.getParameter("num"));
@@ -29,12 +20,11 @@ public class BoardUpdateAction implements Command{
 		 //검색조회 파라미터 얻기
 		 String items =request.getParameter("items");
 		 String text = request.getParameter("text");
-		 String attachFile = request.getParameter("attachFile");
 		 
 		 //DB억세스 객체 생성
 		 BoardDAO dao = BoardDAO.getInstance();
 		 
-		 //BoardDTO객체 생성 (파라미터 설정)
+		 //BoardDTO객체 생성
 		 BoardDTO board = new BoardDTO();
 		 board.setId(request.getParameter("id"));
 		 board.setNum(num);

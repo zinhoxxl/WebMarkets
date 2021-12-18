@@ -13,15 +13,6 @@ function confirmDelete(num,pageNum,items,text){
  location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text;
 }
 </script>
-<script>
-function checkForm(){
-	if(${sessionScope.sessionId==null}){
-		$('#myModal').modal('show');
-	}else{
-		location.href="./BoardWriteForm.do?id=${sessionScope.sessionId}";
-	}	
-}
-</script>
 </head>
 <body>
 <jsp:include page="../menu.jsp"/>
@@ -63,7 +54,24 @@ function checkForm(){
          
        </div>
    </div>
-   
+    <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+            <c:set var="userId" value="${board.id}" />
+            <c:if test="${sessionId==userId}"><!-- 작성자와 로그인 아이디가 같은 경우 버튼 보이기  -->
+              <p>
+
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제
+        </button>
+             <input type="submit" class="btn btn-success" value="수정">
+            </c:if>
+            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
+        </div>
+    </div>
+    </form>
+    <hr>
+</div>
+<jsp:include page="../footer.jsp"/>
+
    <script>
 function readImage(input) {
     // 인풋 태그에 파일이 있는 경우
@@ -84,25 +92,6 @@ function readImage(input) {
 const inputImage = document.getElementById("input-image")
 inputImage.addEventListener("change", e => {readImage(e.target)})
 </script>
-
-    <div class="form-group row">
-        <div class="col-sm-offset-2 col-sm-10">
-            <c:set var="userId" value="${board.id}" />
-            <c:if test="${sessionId==userId}"><!-- 작성자와 로그인 아이디가 같은 경우 버튼 보이기  -->
-              <p>
-
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제
-        </button>
-             <input type="submit" class="btn btn-success" value="수정">
-            </c:if>
-            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
-        </div>
-    </div>
-    </form>
-    <hr>
-</div>
-<jsp:include page="../footer.jsp"/>
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
