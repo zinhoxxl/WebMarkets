@@ -9,8 +9,17 @@
 <meta charset="UTF-8">
 <title>글 내용 보기</title>
 <script>
-function confirmDelete(num,pageNum,items,text,attachFile){
+function confirmDelete(num,pageNum,items,text){
  location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text;
+}
+</script>
+<script>
+function checkForm(){
+	if(${sessionScope.sessionId==null}){
+		$('#myModal').modal('show');
+	}else{
+		location.href="./BoardWriteForm.do?id=${sessionScope.sessionId}";
+	}	
 }
 </script>
 </head>
@@ -23,11 +32,9 @@ function confirmDelete(num,pageNum,items,text,attachFile){
 </div>
 
 <div class="container">
-    <form name="updateWrite" action="./BoardWriteAction.do"
-      class="form-horizontal" 
-      method="post" 
-      enctype="multipart/form-data" 
-      onsubmit="return checkForm()">
+    <form name="newUpdate" 
+          action="BoardUpdateAction.do?num=${board.num}&pageNum=${page}&items=${items}&text=${text}"
+          class="form-horizontal" method="post">
          <input type="hidden" name="id" value="${sessionId}"><!-- request->session->application순으로 조회 -->
     <div class="form-group row">
         <label class="col-sm-2 control-label">성명</label>
@@ -48,32 +55,16 @@ function confirmDelete(num,pageNum,items,text,attachFile){
                class="form-control">${board.content}</textarea>
         </div>
     </div>
-     <div class="form-group row">
+    <div class="form-group row" >
       <label class="col-sm-2 control-label">이미지</label>
        <div class="col-sm-5">
-         <input type="file" name="attachFile" class="form-control" id="input-image">
+         <input type="file" name="filename" class="form-control" id="input-image">
          <img style="width: 500px;" id="preview-image" >
          
        </div>
    </div>
-    <div class="form-group row">
-        <div class="col-sm-offset-2 col-sm-10">
-            <c:set var="userId" value="${board.id}" />
-            <c:if test="${sessionId==userId}"><!-- 작성자와 로그인 아이디가 같은 경우 버튼 보이기  -->
-              <p>
-
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제</button>
-             <input type="submit" class="btn btn-success" value="수정">
-            </c:if>
-            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
-        </div>
-        
-    </div>
-    </form>
-    <hr>
-</div>
-
-<script>
+   
+   <script>
 function readImage(input) {
     // 인풋 태그에 파일이 있는 경우
     if(input.files && input.files[0]) {
@@ -94,6 +85,22 @@ const inputImage = document.getElementById("input-image")
 inputImage.addEventListener("change", e => {readImage(e.target)})
 </script>
 
+    <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+            <c:set var="userId" value="${board.id}" />
+            <c:if test="${sessionId==userId}"><!-- 작성자와 로그인 아이디가 같은 경우 버튼 보이기  -->
+              <p>
+
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">삭제
+        </button>
+             <input type="submit" class="btn btn-success" value="수정">
+            </c:if>
+            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
+        </div>
+    </div>
+    </form>
+    <hr>
+</div>
 <jsp:include page="../footer.jsp"/>
 
 
@@ -117,6 +124,6 @@ inputImage.addEventListener("change", e => {readImage(e.target)})
     </div>
   </div>
 </div>
-  
+    
 </body>
 </html>

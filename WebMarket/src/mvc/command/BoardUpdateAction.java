@@ -19,6 +19,7 @@ public class BoardUpdateAction implements Command{
 		 //검색조회 파라미터 얻기
 		 String items =request.getParameter("items");
 		 String text = request.getParameter("text");
+		 String attachFile = request.getParameter("attachFile");
 		 
 		 //DB억세스 객체 생성
 		 BoardDAO dao = BoardDAO.getInstance();
