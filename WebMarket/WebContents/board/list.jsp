@@ -45,7 +45,7 @@ function checkForm(){
      <c:forEach items="${boardlist}"  var="notice">          
         <tr>
          <td>${notice.num}</td>
-         <td><a href="./BoardViewAction.do?num=${notice.num}&pageNum=${pageNum}&items=${items}&text=${text}">${notice.subject}</a></td>
+         <td><a href="./BoardViewAction.do?num=${notice.num}&pageNum=${pageNum}&items=${items}&text=${text}&attachFile=${attachFile}">${notice.subject}</a></td>
          <td>${notice.regist_day}</td>
          <td>${notice.hit}</td>
          <td>${notice.name}</td>

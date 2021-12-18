@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <title>글 내용 보기</title>
 <script>
-function confirmDelete(num,pageNum,items,text){
- location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text;
+function confirmDelete(num,pageNum,items,text,attachFile){
+ location.href="./BoardDeleteAction.do?num="+num+"&pageNum="+pageNum+"&items="+items+"&text="+text+"&attachFile="+attachFile;
 }
 </script>
 </head>
@@ -47,10 +47,11 @@ function confirmDelete(num,pageNum,items,text){
         </div>
     </div>
      <div class="form-group row">
-      <label class="col-sm-2">이미지</label>
+      <label class="col-sm-2 control-label">이미지</label>
        <div class="col-sm-5">
+         <input type="file" name="attachFile" class="form-control" id="input-image" value="${board.attachFile}">
          <img style="width: 500px;" id="preview-image" >
-         <input type="file" name="attachFile" class="form-control" id="input-image">
+         
        </div>
    </div>
     <div class="form-group row">
@@ -63,7 +64,7 @@ function confirmDelete(num,pageNum,items,text){
         </button>
              <input type="submit" class="btn btn-success" value="수정">
             </c:if>
-            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}" class="btn btn-primary">목록</a>
+            <a href="./BoardListAction.do?pageNum=${page}&items=${items}&text=${text}&attachFile=${input-image}" class="btn btn-primary">목록</a>
         </div>
         
     </div>
@@ -91,6 +92,7 @@ function readImage(input) {
 const inputImage = document.getElementById("input-image")
 inputImage.addEventListener("change", e => {readImage(e.target)})
 </script>
+
 <jsp:include page="../footer.jsp"/>
 
 
