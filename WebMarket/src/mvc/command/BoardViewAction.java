@@ -18,7 +18,6 @@ public class BoardViewAction implements Command{
 			//검색조회 파라미터 얻기
 			String items =request.getParameter("items");
 			String text = request.getParameter("text");
-			String attachFile = request.getParameter("attachFile");
 			
 			//개별 속성 변수를 묶어서 처리할 DTO 객체 생성
 			BoardDTO board = new BoardDTO();
@@ -31,7 +30,6 @@ public class BoardViewAction implements Command{
 			request.setAttribute("board", board);//글 정보
 			request.setAttribute("items", items);//검색 타입
 			request.setAttribute("text", text);//검색어
-			request.setAttribute("attachFile", attachFile);
 
 		return "/BoardView.do";
 	}

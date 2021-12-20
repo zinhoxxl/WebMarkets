@@ -1,4 +1,4 @@
-package mvc.model;
+package mvc.bbs.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,7 +57,7 @@ public class BoardDAO {
   }
   
   //db에 저장하는 메소드
-  public void insertBoard(BoardDTO board) {
+  public void insertBoard(BbsDTO board) {
 	  Connection conn=null;
 	  PreparedStatement pstmt=null;
 	  String sql ="insert into board values(board_seq.nextval,?,?,?,?,?,?,?,?)";
@@ -91,8 +91,8 @@ public class BoardDAO {
   }//insertBoard() 끝.
   
 //board테이블의 레코드 가져오기
-	public List<BoardDTO> getBoardList(int pageNum, int limit, String items, String text) {
-		List<BoardDTO> boardlist = new ArrayList<BoardDTO>();
+	public List<BbsDTO> getBoardList(int pageNum, int limit, String items, String text) {
+		List<BbsDTO> boardlist = new ArrayList<BbsDTO>();
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -136,7 +136,7 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				//DB로부터 결과 레코드를 하나씩 가져와서 boardDTO에 담은 후 리스트에 저장하기
-				BoardDTO board = new BoardDTO();
+				BbsDTO board = new BbsDTO();
 				board.setNum(rs.getInt(2));
 				board.setId(rs.getString(3));
 				board.setName(rs.getString(4));
@@ -208,9 +208,9 @@ public class BoardDAO {
 	} //getListCount() 끝.
 
  //상세 페이지 뷰 메소드
-public BoardDTO getBoardByNum(int num,int pageNum) {
+public BbsDTO getBoardByNum(int num,int pageNum) {
 	//조회한 게시글 정보 저장 객체 생성
-	BoardDTO board=null;
+	BbsDTO board=null;
 	Connection conn=null;
     PreparedStatement pstmt=null;
     ResultSet rs = null;
@@ -226,7 +226,7 @@ public BoardDTO getBoardByNum(int num,int pageNum) {
     	 rs = pstmt.executeQuery();
     	 if(rs.next()) {
            //db로 부터 해당 글번호에 맞는 게시글 정보를 가져와서 BoardDTO에 저장
-    	   board = new BoardDTO();	 
+    	   board = new BbsDTO();	 
     		 board.setNum(rs.getInt(1));
     		 board.setId(rs.getString(2));
     		 board.setName(rs.getString(3));
@@ -278,7 +278,7 @@ public void updateHit(int num) {
 }//updateHit() 끝.
 
 //게시글 내용 수정
-public void updateBoard(BoardDTO board) {
+public void updateBoard(BbsDTO board) {
 	Connection conn=null;
     PreparedStatement pstmt=null;
     String sql="";
