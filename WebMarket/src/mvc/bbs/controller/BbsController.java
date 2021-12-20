@@ -47,7 +47,7 @@ public class BbsController extends HttpServlet {
 	    try(FileReader fis =new FileReader(configFilePath)) {
 	    	   //properties객체로 저장하기
 	    	prop.load(fis);
-	    
+
 	      //propteries파이로부터 읽어들인 정보를 추출하여 객체 생성
 	      Iterator keyItor = prop.keySet().iterator();
 	      while(keyItor.hasNext()) {
@@ -60,14 +60,12 @@ public class BbsController extends HttpServlet {
 	      }
 	      
 	      //출력
-	      Iterator itor = bbsCommandMap.keySet().iterator();
+	      Iterator itor =bbsCommandMap.keySet().iterator();
 	      while(itor.hasNext()) {
 	    	  String command = (String)itor.next();
-	    	  System.out.println(command+"="
-	    			   +((ActionCommand)bbsCommandMap.get(command)).getClass().getName());
+	    	 System.out.println(command+"="
+	    	        +((ActionCommand)bbsCommandMap.get(command)).getClass().getName());
 	      }
-	      
-
 	    }catch(Exception e) {
 	    	System.out.println("에러:"+e.getMessage());
 	    }

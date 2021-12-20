@@ -11,17 +11,17 @@ function checkForm(){
 	if(${sessionScope.sessionId==null}){
 		$('#myModal').modal('show');
 	}else{
-		location.href="./BoardWriteForm.do?id=${sessionScope.sessionId}";
+		location.href="./BbsWriteForm.go?id=${sessionScope.sessionId}";
 	}	
 }
 </script>
-<title>BBS</title>
+<title>bbs</title>
 </head>
 <body>
 <jsp:include page="../menu.jsp"/>
 <div class="jumbotron">
    <div class="container">
-      <h1 class="display-3">BBS</h1>
+      <h1 class="display-3">bbs</h1>
    </div>
 </div>
 <div class="container">
