@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <script>
 function checkForm(){
-	console.log(${sessionScope.sessionId});
+	console.log('${sessionScope.sessionId}');
 	if(${sessionScope.sessionId==null}){
 		$('#myModal').modal('show');
 	}else{
@@ -26,7 +26,7 @@ function checkForm(){
    </div>
 </div>
 <div class="container">
-  <form action="<c:url value="./BbsListAction.do"/>" method="post">  
+  <form action="<c:url value="./BbsListAction.go"/>" method="post">  
     <div>
       <div class="text-right">
              <span class="badge badge-success">전체 ${total_record}</span>
@@ -45,11 +45,11 @@ function checkForm(){
    <c:if test="${not empty bbslist }">
      <c:forEach items="${bbslist}"  var="bbs">          
         <tr>
-         <td>${notice.num}</td>
-         <td><a href="./BbsViewAction.do?num=${notice.num}&pageNum=${pageNum}&items=${items}&text=${text}">${bbs.subject}</a></td>
-         <td>${notice.regist_day}</td>
-         <td>${notice.hit}</td>
-         <td>${notice.name}</td>
+         <td>${bbs.num}</td>
+         <td><a href="./BbsViewAction.go?num=${bbs.num}&pageNum=${pageNum}&items=${items}&text=${text}">${bbs.subject}</a></td>
+         <td>${bbs.reg_date}</td>
+         <td>${bbs.readcount}</td>
+         <td>${bbs.writer}</td>
         </tr>        	    	       
       </c:forEach>
    </c:if>  
@@ -64,12 +64,12 @@ function checkForm(){
   
    <c:if test="${startPage-1==1 }">
    <li class="page-item  disabled"> 
-     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}"/>">Previous</a> 
+     <a  class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${startPage-1}"/>">Previous</a> 
     </li>
    </c:if>
    <c:if test="${startPage-1>1 }">
     <li class="page-item"> 
-     <a  class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${startPage-1}&items=${items}&text=${text}"/>">Previous</a> 
+     <a  class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${startPage-1}&items=${items}&text=${text}"/>">Previous</a> 
     </li>
   </c:if>
       
@@ -77,22 +77,22 @@ function checkForm(){
          <c:choose>
             <c:when test="${pageNum==i }">
                  <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="<c:url value="./BbsListAction.do?pageNum=${i}&items=${items}&text=${text}"/>">${i}</a>
+                    <a class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${i}&items=${items}&text=${text}"/>">${i}</a>
                   </li>
             </c:when>
             <c:otherwise>
-                   <li class="page-item"><a class="page-link" href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}"/>">${i}</a></li>
+                   <li class="page-item"><a class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${i}&items=${items}&text=${text}"/>">${i}</a></li>
             </c:otherwise>
          </c:choose>
      </c:forEach>
      <c:if test="${endPage+1==finalPage }">
    <li class="page-item  disabled"> 
-     <a  class="page-link" href="<c:url value="./BbsListAction.do?pageNum=${endPage+1}&items=${items}&text=${text}"/>">Next</a> 
+     <a  class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${endPage+1}&items=${items}&text=${text}"/>">Next</a> 
     </li>
    </c:if>
    <c:if test="${endPage+1 < finalPage }">
     <li class="page-item"> 
-     <a  class="page-link" href="<c:url value="./BbsListAction.do?pageNum=${endPage+1}&items=${items}&text=${text}"/>">Next</a> 
+     <a  class="page-link" href="<c:url value="./BbsListAction.go?pageNum=${endPage+1}&items=${items}&text=${text}"/>">Next</a> 
     </li>
   </c:if>
    </ul>
