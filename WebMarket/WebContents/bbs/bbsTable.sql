@@ -11,3 +11,29 @@ create table bbs(
  re_step  number not null,        -- ref내의 순서
  re_level number not null         -- 들여쓰기 
 );
+
+
+create sequence bbs_seq start with 1 increment by 1;
+
+select * from user_objects
+where object_type='SEQUENCE';
+
+select * from bbs order by num desc;
+
+insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level)
+select bbs_seq.nextval,writer,subject,content,password,ip,bbs_seq.currval,0,0 from bbs;
+
+
+select *
+  from 
+(select rownum rn, a.* from
+ (select * 
+    from bbs
+   where "+items+" like '%'||?||'%'  
+    order by ref desc, re_step asc)a )
+where rn between 11 and 20 ;
+
+			    
+			    
+			    
+			    
