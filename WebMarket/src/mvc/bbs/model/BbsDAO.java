@@ -11,14 +11,14 @@ import mvc.database.DBConnection;
 import mvc.database.DBConnectionOracle;
 
 //싱글톤 
-public class BoardDAO {
+public class BbsDAO {
   //1.자신타입의 static 필드 선언
-  private static BoardDAO instance;
+  private static BbsDAO instance;
   //2.default생성자를 private로 선언
-  private BoardDAO() {}
+  private BbsDAO() {}
   //3. public 접근제어타입의 getInstance()메소드 선언,getInstance()로만 접근 
-  public static BoardDAO getInstance() {
-	  if(instance==null) instance = new BoardDAO();
+  public static BbsDAO getInstance() {
+	  if(instance==null) instance = new BbsDAO();
 	return instance;
   }
   

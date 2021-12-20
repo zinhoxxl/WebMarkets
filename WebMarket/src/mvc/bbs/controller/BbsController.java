@@ -58,6 +58,15 @@ public class BbsController extends HttpServlet {
 	    	  ActionCommand actionCommand=(ActionCommand) action.newInstance();// new mvc.command.BoardUpdateAction();
 	    	  bbsCommandMap.put(command, actionCommand);  
 	      }
+	      
+	      //출력
+	      Iterator itor = bbsCommandMap.keySet().iterator();
+	      while(itor.hasNext()) {
+	    	  String command = (String)itor.next();
+	    	  System.out.println(command+"="
+	    			   +((ActionCommand)bbsCommandMap.get(command)).getClass().getName());
+	      }
+	      
 
 	    }catch(Exception e) {
 	    	System.out.println("에러:"+e.getMessage());
