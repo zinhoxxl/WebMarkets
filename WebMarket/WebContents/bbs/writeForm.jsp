@@ -23,7 +23,7 @@
       <input name="text" type="hidden" value="${text}">
       <input name="ref" type="hidden" value="${ref}">
       <input name="re_step" type="hidden" value="${re_step}">
-      <input name="re_level" type="hidden" value="${re_level}"> <%-- 값을 다시 전송하기 위함 --%>
+      <input name="re_level" type="hidden" value="${re_level}">
       
       <div class="form-group row">
         <label class="col-sm-2 control-label">작성자</label>
