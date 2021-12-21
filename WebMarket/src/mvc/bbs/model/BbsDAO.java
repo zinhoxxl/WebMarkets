@@ -75,8 +75,9 @@ public class BbsDAO {
 				    +" values (bbs_seq.nextval,?,?,?,?,?,?,?,?)";
 	 }
 	 
-	 try {
+	 try { //신규글 등록 처리
 		   conn = DBConnectionOracle.getConnection();
+		   if(bbs.getRef()==0) {
 		   pstmt =conn.prepareStatement(sql);
 		   pstmt.setString(1, bbs.getWriter());
 		   pstmt.setString(2, bbs.getSubject());
@@ -88,6 +89,29 @@ public class BbsDAO {
 		   pstmt.setInt(7, 0);//신규등록시 re_level=0
 		   
 		   pstmt.executeUpdate();
+		 }else {
+			 //기존 댓글 update 처리
+			 pstmt = conn.prepareStatement(updateSql);
+			 pstmt.setInt(1, bbs.getRef());
+			 pstmt.setInt(2, bbs.getRe_step());
+			 
+			 //update처리
+			 pstmt.executeUpdate();
+			 
+			 //댓글 입력 처리
+			 pstmt = conn.prepareStatement(sql);
+		     pstmt.setString(1, bbs.getWriter());
+		     pstmt.setString(2, bbs.getSubject());
+		     pstmt.setString(3, bbs.getContent());
+		     pstmt.setString(4, bbs.getPassword());
+		     pstmt.setString(5, bbs.getIp());
+		     //신규 등록시 글번호=ref, re_step=0, re_level=0
+		     pstmt.setInt(6, bbs.getRef());
+		     pstmt.setInt(7, bbs.getRe_step()+1); //댓글 등록시 re_step=re_step+1,
+		     pstmt.setInt(8, bbs.getRe_level()+1); //댓글 등록시 re_level=re_level+1
+		   
+		     pstmt.executeUpdate();
+		 }
 	 }catch(Exception e){
 		  System.out.println("에러:"+e);
 	  }finally {
