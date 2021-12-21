@@ -60,9 +60,21 @@ public class BbsDAO {
  public void insertBbs(BbsDTO bbs){
 	 Connection conn=null;
 	 PreparedStatement pstmt=null;
-	 
-	 String sql ="insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level) "
+	 String sql = "";
+	 String updateSql="";
+	 if(bbs.getRef()==0) {
+		 //원글 신규입력
+	  sql ="insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level) "
 			    +" values (bbs_seq.nextval,?,?,?,?,?,bbs_seq.currval,?,?)";
+	 }else {
+		 /* 원글중에 댓글이 있으면, 신규 댓글 입력 전에, 
+		    등록하려는 댓글과 같은 ref 그룹의 기존 댓글의 스텝을 1씩 증가 처리 */     
+		 updateSql = "update bbs set re_step = re_step+1 where ref=? and re_step > ? ";
+		 //원글에 대한 댓글 입력
+      sql ="insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level) "
+				    +" values (bbs_seq.nextval,?,?,?,?,?,?,?,?)";
+	 }
+	 
 	 try {
 		   conn = DBConnectionOracle.getConnection();
 		   pstmt =conn.prepareStatement(sql);
