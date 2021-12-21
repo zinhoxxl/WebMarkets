@@ -58,61 +58,67 @@ public class BbsDAO {
   
   // Bbs 등록
  public void insertBbs(BbsDTO bbs){
-	 Connection conn=null;
-	 PreparedStatement pstmt=null;
-	 String sql="";
-	 String updateSql="";
-	 if(bbs.getRef()==0) {
-		 //원글 신규입력
-	   sql ="insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level) "
-			    +" values (bbs_seq.nextval,?,?,?,?,?,bbs_seq.currval,?,?)";
-	 }else {
-		 //원글중에 댓글이 있으면, 신규 댓글 입력 전에, 
-		 //등록하려는 댓글과 같은 ref 그룹의 기존 댓글의 스텝을 1씩 증가 처리 
-		 updateSql="update bbs set re_step=re_step+1 where ref=? and re_step > ? ";
-		 
-		//원글에 대한 댓글 입력
-	   sql ="insert into bbs(num,writer,subject,content, password,ip,ref,re_step,re_level) "
-				    +" values (bbs_seq.nextval,?,?,?,?,?,?,?,?)";
-	 }
-	 
-	 try { //신규글 등록 처리
-		   conn = DBConnectionOracle.getConnection();
-		 if(bbs.getRef()==0) {
-		   pstmt =conn.prepareStatement(sql);
-		   pstmt.setString(1, bbs.getWriter());
-		   pstmt.setString(2, bbs.getSubject());
-		   pstmt.setString(3, bbs.getContent());
-		   pstmt.setString(4, bbs.getPassword());
-		   pstmt.setString(5, bbs.getIp());
-		   //신규 등록시 글번호=ref, re_step=0, re_level=0
-		   pstmt.setInt(6, 0);//신규등록시 re_step=0,
-		   pstmt.setInt(7, 0);//신규등록시 re_level=0
-		  
-		   pstmt.executeUpdate();
-		}else {
-		   //기존 댓글 update처리
-		  pstmt = conn.prepareStatement(updateSql);	
-		  pstmt.setInt(1, bbs.getRef());
-		  pstmt.setInt(2, bbs.getRe_step());
-		  
-		  //update처리
-		  pstmt.executeUpdate();
-		  
-		  //댓글 입력 처리
-		  pstmt = conn.prepareStatement(sql);
-		  
-		  pstmt.setString(1, bbs.getWriter());
-		  pstmt.setString(2, bbs.getSubject());
-		  pstmt.setString(3, bbs.getContent());
-		  pstmt.setString(4, bbs.getPassword());
-		  pstmt.setString(5, bbs.getIp());
-		   //신규 등록시 글번호=ref, re_step=0, re_level=0
-		  pstmt.setInt(6, bbs.getRef());
-		  pstmt.setInt(7, bbs.getRe_step()+1);//댓글등록시 re_step=re_step+1,
-		  pstmt.setInt(8, bbs.getRe_level()+1);//댓글등록시 re_level=re_level+1
-		  
-		  pstmt.executeUpdate();
+	 Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = "";
+		String updateSql = "";
+		
+		if(bbs.getRef()==0) { //ref가 0이면 신규글 등록
+			sql = "insert into bbs(num,writer,subject,content,password,ip,ref,re_step,re_level) "
+				+ "values (bbs_seq.nextval,?,?,?,?,?,bbs_seq.currval,?,?)";
+		
+		}else { //ref가 0이 아니면 답변글(댓글) 등록 (답변글은 글번호가 원글과 같음)
+			System.out.println("x");
+			//원글 중 댓글이 있으면, 신규 댓글 입력 전 등록하려는 댓글과 같은 ref 그룹의 기존 댓글의 스텝을 1씩 증가 처리
+			updateSql = "update bbs set re_step=re_step+1 where ref=? and re_step > ?"; 
+			
+			//원글에 대한 답변글(댓글) 등록
+			sql = "insert into bbs(num,writer,subject,content,password,ip,ref,re_step,re_level) "
+					+ "values (bbs_seq.nextval,?,?,?,?,?,?,?,?)";			
+		}
+		
+		try { //신규글 등록 처리
+			conn = DBConnectionOracle.getConnection();
+			if(bbs.getRef()==0) {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, bbs.getWriter());
+				pstmt.setString(2, bbs.getSubject());
+				pstmt.setString(3, bbs.getContent());
+				pstmt.setString(4, bbs.getPassword());
+				pstmt.setString(5, bbs.getIp());
+				//신규 등록 시 : 글번호 = ref, re_step=0, re_level=0
+				pstmt.setInt(6, 0); //신규 등록 시 re_step=0
+				pstmt.setInt(7, 0); //신규 등록 시 re_level=0
+				
+				pstmt.executeUpdate();
+			}else {
+				System.out.println("y");
+				
+				//기존 댓글 update 처리
+				pstmt = conn.prepareStatement(updateSql);
+				pstmt.setInt(1,bbs.getRef());
+				pstmt.setInt(2,bbs.getRe_step());
+				
+				//update처리
+				pstmt.executeUpdate();
+				
+				//댓글 입력 처리
+				pstmt = conn.prepareStatement(sql);
+				System.out.println("sql:"+sql);
+				
+				pstmt.setString(1, bbs.getWriter());
+				pstmt.setString(2, bbs.getSubject());
+				pstmt.setString(3, bbs.getContent());
+				pstmt.setString(4, bbs.getPassword());
+				pstmt.setString(5, bbs.getIp());
+				//신규 등록 시 : 글번호=ref, re_step=0, re_level=0
+				pstmt.setInt(6, bbs.getRef());
+				pstmt.setInt(7, bbs.getRe_step()+1); //댓글 등록 시 re_step = re_step+1
+				pstmt.setInt(8, bbs.getRe_level()+1); //댓글 등록 시 re_level = re_level+1
+				
+				pstmt.executeUpdate();
 		}
 	 }catch(Exception e){
 		  System.out.println("에러:"+e);
@@ -253,7 +259,38 @@ public class BbsDAO {
 	  } 
 	 return count;
  }//getBbsCount() 끝.
+ 
+ 
+ 
+ 
+ //글 조회수 증가 처리
+ public void updateBbsReadcount(int num) {
+	 Connection conn = null;
+	 PreparedStatement pstmt = null;
+	 
+	 String sql="update bbs set readcount = readcount + 1 where num=?";
+	 
+	 try { //조회수 증가 처리
+		 conn = DBConnectionOracle.getConnection();
+				 pstmt = conn.prepareStatement(sql);
+				 pstmt.setInt(1, num);
+				 //update처리
+				 pstmt.executeUpdate();
+	    }catch(Exception e) {
+	    	System.out.println("에러 : " + e);
+	    }finally {
+			  try {
+				    if(pstmt!=null) pstmt.close();
+				    if(conn!=null)conn.close();
+			  }catch(Exception e) {
+				  throw new RuntimeException(e.getMessage());
+			  }
+		  } 
+	 
+ } //updateBbsReadcount() 끝.
+ 
 
+ 
  //글번호에 해당하는 Bbs정보 얻기
  public BbsDTO getBbsByNum(int num,int pageNum) {
   BbsDTO bbs =null;
@@ -264,6 +301,9 @@ public class BbsDAO {
   String sql="select * from bbs where num=?";
  
   System.out.println("sql:"+sql);
+  
+  //조회수 증가 처리
+  updateBbsReadcount(num);
 
 		try {
 			//1.OracleDB 연결객체 생성
@@ -299,4 +339,56 @@ public class BbsDAO {
   } 
   return bbs;
  }//getBbsByNum() 끝.
+ 
+public int getFirstNum() {
+	 int minNum =0;
+	 Connection conn=null;
+	  PreparedStatement pstmt=null;
+	  ResultSet rs=null;
+	 
+	  String sql="select nvl(min(num),0) from bbs ";	
+	try {
+		 //1.OracleDB 연결객체 생성
+		 conn = DBConnectionOracle.getConnection();
+		 pstmt = conn.prepareStatement(sql);
+		 rs = pstmt.executeQuery();
+		 if(rs.next()) minNum = rs.getInt(1);
+	   }catch(Exception e) {
+		  System.out.println("에러:"+e);
+	  }finally {
+		  try {
+			    if(rs!=null) rs.close(); if(pstmt!=null) pstmt.close();
+			    if(conn!=null)conn.close();
+		  }catch(Exception e) {
+			  throw new RuntimeException(e.getMessage());
+		  }
+	  } 
+	return minNum;
+}//getFirstNum() 끝.
+
+public int getLastNum() {
+	 int maxNum =0;
+	 Connection conn=null;
+	  PreparedStatement pstmt=null;
+	  ResultSet rs=null;
+	 
+	  String sql="select nvl(max(num),0) from bbs ";	
+	try {
+		 //1.OracleDB 연결객체 생성
+		 conn = DBConnectionOracle.getConnection();
+		 pstmt = conn.prepareStatement(sql);
+		 rs = pstmt.executeQuery();
+		 if(rs.next()) maxNum = rs.getInt(1);
+	   }catch(Exception e) {
+		  System.out.println("에러:"+e);
+	  }finally {
+		  try {
+			    if(rs!=null) rs.close(); if(pstmt!=null) pstmt.close();
+			    if(conn!=null)conn.close();
+		  }catch(Exception e) {
+			  throw new RuntimeException(e.getMessage());
+		  }
+	  } 
+	return maxNum;
+  }//getLastNum() 끝.
 }
