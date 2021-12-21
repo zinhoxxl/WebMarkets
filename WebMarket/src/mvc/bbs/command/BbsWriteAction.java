@@ -14,16 +14,16 @@ public class BbsWriteAction implements ActionCommand {
 		 String pageNum=request.getParameter("pageNum");
 		 String items=request.getParameter("items");
 		 String text = request.getParameter("text");
-		 int ref = 
-		   request.getParameter("ref").equals("")?0:Integer.parseInt(request.getParameter("ref"));
-		 int re_step = 
-		   request.getParameter("re_step").equals("")?0:Integer.parseInt(request.getParameter("re_step"));
-		 int re_level = 
-		   request.getParameter("re_level").equals("")?0:Integer.parseInt(request.getParameter("re_level"));
+	int ref=
+	    request.getParameter("ref").equals("")?0:Integer.parseInt(request.getParameter("ref"));
+	int re_step=
+	    request.getParameter("re_step").equals("")?0:Integer.parseInt(request.getParameter("re_step"));
+	int re_level=
+        request.getParameter("re_level").equals("")?0:Integer.parseInt(request.getParameter("re_level"));
 		
 		String writer =request.getParameter("writer");
 		String subject = request.getParameter("subject");
-		String content = request.getParameter("content");
+		String content = request.getParameter("content"); 
 		String reg_date =request.getParameter("reg_date");
 		String password =request.getParameter("password");
 		String ip = request.getRemoteAddr();
@@ -38,8 +38,8 @@ public class BbsWriteAction implements ActionCommand {
 		//글 등록 처리
 		BbsDAO dao = BbsDAO.getInstance();
 		
-		System.out.println("ref : " + ref);
-		//dao.insertBbs(bbs);
+		System.out.println("ref:"+ref);
+		dao.insertBbs(bbs);
 		
 		//글 등록 후 리스트로 이동처리
 		return "/BbsListAction.go";
