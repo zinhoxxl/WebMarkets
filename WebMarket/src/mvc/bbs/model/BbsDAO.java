@@ -133,6 +133,7 @@ public class BbsDAO {
  }//insertBbs() 끝.
   
  //BbsList출력 메소드
+ //리스트에 좋아요/싫어요 출력 쿼리문 추가
  public List<BbsDTO> getBbsList(int pageNum, int limit, String items, String text){
 	 List<BbsDTO> bbslist = new ArrayList<>();
 	  Connection conn=null;
@@ -330,7 +331,7 @@ public void updateBbsReadcount(int num) {
   System.out.println("sql:"+sql);
   
   //조회수 증가 처리
-   updateBbsReadcount(num);
+  // updateBbsReadcount(num);
    
 		try {
 			//1.OracleDB 연결객체 생성

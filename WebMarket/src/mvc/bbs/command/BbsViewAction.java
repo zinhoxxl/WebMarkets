@@ -26,7 +26,13 @@ public class BbsViewAction implements ActionCommand {
 		
 		//개별 속성 변수를 묶어서 처리할 DTO 객체 생성
 		BbsDTO bbs = new BbsDTO();
+		
+		//상세페이지로 이동할때만 조회수 증가하게
+		dao.updateBbsReadcount(num);
+		
+		//좋아요 싫어요 정보얻기
 		gbDto = dao.getBbsGoodBadByNum(num); //
+		
 		//DAO에 상세글번호와 페이지 번호를 넘겨서 DB로 부터 얻은 글 정보를 다시 받음.
 		bbs = dao.getBbsByNum(num,pageNum);
 		//gbDto= (BbsGoodBadDTO)request.getAttribute("bbsGoodBad");
