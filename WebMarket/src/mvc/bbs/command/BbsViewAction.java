@@ -24,7 +24,6 @@ public class BbsViewAction implements ActionCommand {
 		BbsDTO bbs = new BbsDTO();
 		//DAO에 상세글번호와 페이지 번호를 넘겨서 DB로 부터 얻은 글 정보를 다시 받음.
 		bbs = dao.getBbsByNum(num,pageNum);
-
 		
 		//상세 글정보를 상세 페이지로 전달 위해 request에 세팅
 		request.setAttribute("num", num);//글번호-autoBoxing(기본타입-래퍼객체로 자동형변환)
@@ -36,6 +35,8 @@ public class BbsViewAction implements ActionCommand {
 		//
 		request.setAttribute("firstNum", request.getParameter("firstNum"));
 		request.setAttribute("lastNum", request.getParameter("lastNum"));
+	    request.setAttribute("sessionId", request.getParameter("sessionId"));
+        request.setAttribute("page",request.getParameter("page"));	
 		
 		//이동 페이지 
 		return "./bbs/view.jsp";
