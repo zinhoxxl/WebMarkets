@@ -40,6 +40,8 @@ function checkForm(){
              <th>작성일</th>
              <th>조회</th>
              <th>글쓴이</th>
+             <th>좋아요</th>
+             <th>싫어요</th>
             </tr>
      
    <c:if test="${not empty bbslist }">
@@ -56,6 +58,8 @@ function checkForm(){
          <td>${bbs.reg_date}</td>
          <td>${bbs.readcount}</td>
          <td>${bbs.writer}</td>
+         <td>${bbs.good}</td>
+         <td>${bbs.bad}</td>
         </tr>        	    	       
       </c:forEach>
    </c:if>  
