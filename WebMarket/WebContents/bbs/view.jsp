@@ -73,13 +73,13 @@ ${bbs.re_level}  옆에 가이드 --%>
 						href="./BbsGoodBadAction.go?firstNum=${firstNum}&lastNum=${lastNum}&id=${sessionId}
 	                 &pageNum=${page}&items=${items}&text=${text}&num=${bbs.num}&ref=${bbs.ref}&re_step=${bbs.re_step}
 	                  &re_level=${bbs.re_level}&good=1&bad=0"
-						class="btn btn-info"> <i class="fa fa-heart-o">좋아요${bbsGoodbad.good }</i></a>
+						class="btn btn-info"> <i class="fa fa-heart-o">좋아요${BbsGoodBadDTO.good }</i></a>
 
 					<a
 						href="./BbsGoodBadAction.go?firstNum=${firstNum}&lastNum=${lastNum}&id=${sessionId}
                      &pageNum=${page}&items=${items}&text=${text}&num=${bbs.num}&ref=${bbs.ref}
                      &re_step=${bbs.re_step}&re_level=${bbs.re_level}&good=0&bad=1"
-						class="btn btn-danger"> <i class="fa fa-danger">싫어요${bbsGoodbad.bad }</i></a>
+						class="btn btn-danger"> <i class="fa fa-danger">싫어요${BbsGoodBadDTO.bad }</i></a>
 				</div>
 			</div>
 		</form>
