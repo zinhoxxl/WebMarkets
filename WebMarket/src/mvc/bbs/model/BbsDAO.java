@@ -459,7 +459,4 @@ public void deleteBbs(int num) {
  } 	
 }//updateBbs() 끝.
 
-
-
-
 }
