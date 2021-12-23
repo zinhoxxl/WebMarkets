@@ -36,6 +36,7 @@ public class BbsViewAction implements ActionCommand {
 		//상세페이지로 이동할때만 조회수 증가하게
 		dao.updateBbsReadcount(num);
 		
+		
 		//좋아요 싫어요 정보얻기
 		BbsGoodBadDTO gbDto = dao.getBbsGoodBadByNum(num); //
 		
